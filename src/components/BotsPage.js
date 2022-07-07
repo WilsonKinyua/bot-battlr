@@ -26,10 +26,23 @@ function BotsPage() {
     setBotArmy(botArmy.filter((b) => b.id !== bot.id));
   };
 
+  // delete clicked bot from database and remove from my bot army list if it is in it and update the bots list
+  const deleteBotFromDatabase = (bot) => {
+    fetch(`http://localhost:8002/bots/${bot.id}`, {
+      method: "DELETE",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        removeBotFromMyArmy(bot);
+        setBots(bots.filter((b) => b.id !== bot.id));
+      }
+      );
+  }
+
   return (
     <div>
-      <YourBotArmy botsArmy={botArmy} clickedBotToArmy={removeBotFromMyArmy} />
-      <BotCollection bots={bots} clickedBotToArmy={addBotToArmyHandler} />
+      <YourBotArmy botsArmy={botArmy} clickedBotToArmy={removeBotFromMyArmy} deleteBotFromDatabase={deleteBotFromDatabase} />
+      <BotCollection bots={bots} clickedBotToArmy={addBotToArmyHandler} deleteBotFromDatabase = {deleteBotFromDatabase} />
     </div>
   );
 }
