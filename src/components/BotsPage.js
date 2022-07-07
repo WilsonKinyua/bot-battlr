@@ -21,10 +21,15 @@ function BotsPage() {
     setBotArmy([...botArmy, bot]);
   };
 
+  // remove bot from my bot section
+  const removeBotFromMyArmy = (bot) => {
+    setBotArmy(botArmy.filter((b) => b.id !== bot.id));
+  };
+
   return (
     <div>
-      <YourBotArmy botsArmy={botArmy} />
-      <BotCollection bots={bots} addBotToArmy={addBotToArmyHandler} />
+      <YourBotArmy botsArmy={botArmy} clickedBotToArmy={removeBotFromMyArmy} />
+      <BotCollection bots={bots} clickedBotToArmy={addBotToArmyHandler} />
     </div>
   );
 }
